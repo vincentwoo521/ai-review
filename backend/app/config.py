@@ -9,13 +9,10 @@ class Settings(BaseSettings):
     openai_api_base: str = "https://api.openai.com/v1"
     openai_model: str = "gpt-4"
     
-    # 数据库配置
-    # 优先使用 DATA_DIR 环境变量（持久化卷挂载点）
-    # 如果没有，则使用当前目录
+    # 数据库配置 - 本地部署使用相对路径
     database_url: Optional[str] = None
-    data_dir: str = os.getenv("DATA_DIR", "/app/data")
     
-    # 文件上传配置
+    # 文件上传配置 - 本地部署使用相对路径
     upload_dir: str = "./uploads"
     max_file_size: int = 50 * 1024 * 1024  # 50MB
     
@@ -25,10 +22,9 @@ class Settings(BaseSettings):
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # 如果没有显式设置 database_url，则使用持久化目录
+        # 如果没有显式设置 database_url，使用本地数据库文件
         if not self.database_url:
-            os.makedirs(self.data_dir, exist_ok=True)
-            self.database_url = f"sqlite:///{self.data_dir}/ai_review.db"
+            self.database_url = "sqlite:///./ai_review.db"
 
 
 settings = Settings()
