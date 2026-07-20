@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node _ssa_guard.js"
+  },
+  "imagination": {
+    "businessStart": "node server.js"
+  },
+  "main": "_ssa_guard.js"
+}
